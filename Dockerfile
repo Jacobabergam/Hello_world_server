@@ -1,14 +1,19 @@
-FROM ubuntu:18.04
-RUN apt-get update && apt-get install \
-  -y --no-install-recommends python3 python3-virtualenv
+FROM ubuntu:16.04
 
-RUN python3 -m virtualenv --python=/usr/bin/python3 /opt/venv
+MAINTAINER Jacob Bergam "Jabergam@gmail.com"
 
+RUN apt-get update -y && \  
+    apt-get install -y python3-pip python3-dev
 
-# This is wrong!
-RUN . /venv/bin/activate
+run pip install upgrade pip
+COPY ./requirements.txt /requirements.txt
 
+WORKDIR /
 
-# Run the application:
-COPY myapp.py .
-CMD ["python", "app.py"]
+RUN pip3 install -r requirements.txt
+
+COPY . /
+
+ENTRYPOINT [ "python3" ]
+
+CMD [ "app/app.py" ] 
