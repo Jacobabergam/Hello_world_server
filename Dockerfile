@@ -5,15 +5,15 @@ MAINTAINER Jacob Bergam "Jabergam@gmail.com"
 RUN apt-get update -y && \  
     apt-get install -y python3-pip python3-dev
 
-run pip install upgrade pip
 COPY ./requirements.txt /requirements.txt
-
-WORKDIR /
 
 RUN pip3 install -r requirements.txt
 
-COPY . /
+COPY ./app /app
+WORKDIR /app
 
 ENTRYPOINT [ "python3" ]
+CMD [ "app.py" ] 
 
-CMD [ "app/app.py" ] 
+# expose port
+EXPOSE 5000
